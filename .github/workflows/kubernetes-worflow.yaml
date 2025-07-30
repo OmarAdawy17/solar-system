@@ -81,13 +81,11 @@ jobs:
     - name: Show processed manifests
       run: cat kubernetes/development/*.yaml
 
-    - name: Create Namespace if not exists
-      run: |
-             kubectl get namespace ${{ vars.NAMESPACE }} || \
-             kubectl create namespace ${{ vars.NAMESPACE }}
 
     - name: Create MongoDB secret
       run: |
+            kubectl get namespace ${{ vars.NAMESPACE }} || \
+            kubectl create namespace ${{ vars.NAMESPACE }}
             kubectl -n ${{ vars.NAMESPACE }} create secret generic mongo-db-creds \
             --from-literal=MONGO_URI=${{ env.MONGO_URI }} \
             --from-literal=MONGO_USERNAME=${{ env.MONGO_USERNAME }} \
